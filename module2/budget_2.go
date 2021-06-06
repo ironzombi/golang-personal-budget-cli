@@ -74,22 +74,21 @@ func (b *Budget) RemoveItem(description string) {
 // CreateBudget creates a new budget with a specified max
 func CreateBudget(month time.Month, max float32) (*Budget, error) {
 	var newBudget *Budget
-
-	newBudget{Max: max}
-	if len(report[month]) >= 12 {
+	newBudget = &Budget{Max: max}
+	if len(report) >= 12 {
 		return nil, errReportIsFull
 	}
-	if report[month] {
-		return err, duplicateEntry
+	if _, hasEntry := report[month]; hasEntry {
+		return nil, errDuplicateEntry
 	}
-	newBudget = report
+	report[month] = newBudget
 
 	return newBudget, nil
 }
 
 // GetBudget returns budget for given month
 func GetBudget(month time.Month) *Budget {
-	if budget, ok := report[month]; ok == nil {
+	if budget, ok := report[month]; ok {
 		return budget
 	}
 	return nil
